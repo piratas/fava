@@ -1,0 +1,30 @@
+language: python
+
+install:
+  - pip install tox
+  - pip install -e .
+
+script: tox -e $TOXENV
+
+matrix:
+  include:
+    - python: 3.5
+      env: {TOXENV: py35}
+    - python: 3.5
+      env: {TOXENV: coverage, COVERAGE: 1}
+    - python: 3.5
+      env: {TOXENV: lint}
+    - language: node_js
+      node_js: "node"
+      install: "cd fava/static; npm install"
+      script: "cd fava/static; npm run lint"
+
+before_install:
+    - "[ ! -z $COVERAGE ] && pip install codecov || true"
+after_success:
+    - "[ ! -z $COVERAGE ] && codecov || true"
+
+cache:
+    pip: true
+    directories:
+        - fava/static/node_modules

@@ -1,0 +1,1065 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Development &mdash; Fava 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Fava 1.2 documentation" href="index.html" />
+    <link rel="prev" title="Changelog" href="changelog.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="development">
+<h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="setting-up-a-development-environment">
+<h2>Setting up a development environment<a class="headerlink" href="#setting-up-a-development-environment" title="Permalink to this headline">¶</a></h2>
+<p>If you want to hack on Fava or run the latest development version, this will
+get you up and running:</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span></span>git clone https://github.com/beancount/fava.git
+cd fava
+# using a virtual environment is optional, but recommended
+virtualenv -p python3 venv
+. venv/bin/activate
+make build-js
+pip install --editable .
+</pre></div>
+</div>
+<p>Note that a development installation Fava requires recent versions of Node.js and
+npm, both available on OS X and Linux, but currently not on Cygwin.
+To package the development version, you can run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">bdist_wheel</span></code>
+(make sure the <code class="docutils literal"><span class="pre">wheel</span></code> Python package is installed), which will produce a
+<code class="docutils literal"><span class="pre">.whl</span></code> file in the <code class="docutils literal"><span class="pre">dist</span></code> directory which you can install with <code class="docutils literal"><span class="pre">pip</span></code> on a
+different machine.</p>
+<p>If you need a newer version of <code class="docutils literal"><span class="pre">beancount</span></code> than you can find on PyPi, you can
+run from source like so (more details <a class="reference external" href="http://furius.ca/beancount/doc/install">here</a>):</p>
+<div class="code bash highlight-python"><div class="highlight"><pre><span></span>hg clone https://bitbucket.org/blais/beancount
+cd beancount
+# activate the fava virtual environment
+. venv/bin/activate
+pip install --editable .
+</pre></div>
+</div>
+<p>Contributions are very welcome, just open a PR on <a class="reference external" href="https://github.com/beancount/fava/pulls">Github</a>.</p>
+<p>Fava is released under the <a class="reference external" href="https://github.com/beancount/fava/blob/master/LICENSE">MIT License</a>.</p>
+</div>
+<div class="section" id="api-documentation">
+<h2>API Documentation<a class="headerlink" href="#api-documentation" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There&#8217;s no stability guarantee as this is just for internal purposes currently.</p>
+</div>
+<div class="section" id="fava-application">
+<h3>fava.application<a class="headerlink" href="#fava-application" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-fava.api">
+<span id="fava-api"></span><h3>fava.api<a class="headerlink" href="#module-fava.api" title="Permalink to this headline">¶</a></h3>
+<p>This module provides the data required by Fava&#8217;s reports.</p>
+<dl class="class">
+<dt id="fava.api.BeancountReportAPI">
+<em class="property">class </em><code class="descclassname">fava.api.</code><code class="descname">BeancountReportAPI</code><span class="sig-paren">(</span><em>beancount_file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides methods to access and filter beancount entries.</p>
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.abs_path">
+<code class="descname">abs_path</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.abs_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a path absolute if it is relative, assuming it is relative to
+the directory of the beancount file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.account_journal">
+<code class="descname">account_journal</code><span class="sig-paren">(</span><em>account_name</em>, <em>with_journal_children=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.account_journal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.account_metadata">
+<code class="descname">account_metadata</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.account_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metadata of the account.</p>
+<p>This is read from the Open entry of the account.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.account_types">
+<code class="descname">account_types</code><a class="headerlink" href="#fava.api.BeancountReportAPI.account_types" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.account_uptodate_status">
+<code class="descname">account_uptodate_status</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.account_uptodate_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status representing the last balance or transaction.</p>
+<p>green:  A balance check that passed.
+red:    A balance check that failed.
+yellow: Not a balance check.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.active_payees">
+<code class="descname">active_payees</code><a class="headerlink" href="#fava.api.BeancountReportAPI.active_payees" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.active_tags">
+<code class="descname">active_tags</code><a class="headerlink" href="#fava.api.BeancountReportAPI.active_tags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.active_years">
+<code class="descname">active_years</code><a class="headerlink" href="#fava.api.BeancountReportAPI.active_years" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.all_accounts">
+<code class="descname">all_accounts</code><a class="headerlink" href="#fava.api.BeancountReportAPI.all_accounts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.all_accounts_active">
+<code class="descname">all_accounts_active</code><a class="headerlink" href="#fava.api.BeancountReportAPI.all_accounts_active" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.all_entries">
+<code class="descname">all_entries</code><a class="headerlink" href="#fava.api.BeancountReportAPI.all_entries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.all_root_account">
+<code class="descname">all_root_account</code><a class="headerlink" href="#fava.api.BeancountReportAPI.all_root_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.balances">
+<code class="descname">balances</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.balances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.beancount_file_path">
+<code class="descname">beancount_file_path</code><a class="headerlink" href="#fava.api.BeancountReportAPI.beancount_file_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.budgets">
+<code class="descname">budgets</code><a class="headerlink" href="#fava.api.BeancountReportAPI.budgets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.calculate_budget">
+<code class="descname">calculate_budget</code><span class="sig-paren">(</span><em>account_name</em>, <em>begin_date</em>, <em>end_date</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.calculate_budget" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.changed">
+<code class="descname">changed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.changed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the file needs to be reloaded.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.charts">
+<code class="descname">charts</code><a class="headerlink" href="#fava.api.BeancountReportAPI.charts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.closing_balances">
+<code class="descname">closing_balances</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.closing_balances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.commodity_pairs">
+<code class="descname">commodity_pairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.commodity_pairs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.context">
+<code class="descname">context</code><span class="sig-paren">(</span><em>ehash</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.context" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.custom_entries">
+<code class="descname">custom_entries</code><a class="headerlink" href="#fava.api.BeancountReportAPI.custom_entries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.date_first">
+<code class="descname">date_first</code><a class="headerlink" href="#fava.api.BeancountReportAPI.date_first" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.date_last">
+<code class="descname">date_last</code><a class="headerlink" href="#fava.api.BeancountReportAPI.date_last" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.document_path">
+<code class="descname">document_path</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.document_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if file_path is the path to a document and the absolute
+path if valid. Throws if the path is not valid.</p>
+<p>It should occur in one of the Document entries.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.entries">
+<code class="descname">entries</code><a class="headerlink" href="#fava.api.BeancountReportAPI.entries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.entries_for_link">
+<code class="descname">entries_for_link</code><span class="sig-paren">(</span><em>link</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.entries_for_link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Entries with the specified link.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.errors">
+<code class="descname">errors</code><a class="headerlink" href="#fava.api.BeancountReportAPI.errors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.events">
+<code class="descname">events</code><span class="sig-paren">(</span><em>event_type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.fava_options">
+<code class="descname">fava_options</code><a class="headerlink" href="#fava.api.BeancountReportAPI.fava_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.filter">
+<code class="descname">filter</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set and apply (if necessary) filters.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.filters">
+<code class="descname">filters</code><a class="headerlink" href="#fava.api.BeancountReportAPI.filters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.get_account_sign">
+<code class="descname">get_account_sign</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.get_account_sign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.get_query">
+<code class="descname">get_query</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.get_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.hash_entry">
+<code class="descname">hash_entry</code><span class="sig-paren">(</span><em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.hash_entry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.holdings">
+<code class="descname">holdings</code><span class="sig-paren">(</span><em>aggregation_key=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.holdings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.insert_metadata">
+<code class="descname">insert_metadata</code><span class="sig-paren">(</span><em>filename</em>, <em>lineno</em>, <em>basekey</em>, <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.insert_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert metadata into a file at lineno. Also, prevent duplicate
+keys.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.interval_balances">
+<code class="descname">interval_balances</code><span class="sig-paren">(</span><em>interval</em>, <em>account_name</em>, <em>accumulate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.interval_balances" title="Permalink to this definition">¶</a></dt>
+<dd><p>accumulate is False for /changes and True for /balances</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.is_encrypted">
+<code class="descname">is_encrypted</code><a class="headerlink" href="#fava.api.BeancountReportAPI.is_encrypted" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.last_entry">
+<code class="descname">last_entry</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.last_entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>The last entry of the account if it is not a Close entry.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.load_file">
+<code class="descname">load_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.load_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load self.beancount_file_path and compute things that are independent
+of how the entries might be filtered later</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.options">
+<code class="descname">options</code><a class="headerlink" href="#fava.api.BeancountReportAPI.options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.postings_by_account">
+<code class="descname">postings_by_account</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.postings_by_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.price_map">
+<code class="descname">price_map</code><a class="headerlink" href="#fava.api.BeancountReportAPI.price_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.prices">
+<code class="descname">prices</code><span class="sig-paren">(</span><em>base</em>, <em>quote</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.prices" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.quantize">
+<code class="descname">quantize</code><span class="sig-paren">(</span><em>value</em>, <em>currency</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.quantize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quantize the value to the right number of decimal digits.</p>
+<p>Uses the DisplayContext generated by beancount.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.queries">
+<code class="descname">queries</code><a class="headerlink" href="#fava.api.BeancountReportAPI.queries" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.query">
+<code class="descname">query</code><span class="sig-paren">(</span><em>query_string</em>, <em>numberify=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.root_account">
+<code class="descname">root_account</code><a class="headerlink" href="#fava.api.BeancountReportAPI.root_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.set_source">
+<code class="descname">set_source</code><span class="sig-paren">(</span><em>file_path</em>, <em>source</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.set_source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.sidebar_links">
+<code class="descname">sidebar_links</code><a class="headerlink" href="#fava.api.BeancountReportAPI.sidebar_links" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.source">
+<code class="descname">source</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.source_files">
+<code class="descname">source_files</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.source_files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.BeancountReportAPI.statement_path">
+<code class="descname">statement_path</code><span class="sig-paren">(</span><em>filename</em>, <em>lineno</em>, <em>metadata_key</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.BeancountReportAPI.statement_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the path for a statement found in the specified entry.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.title">
+<code class="descname">title</code><a class="headerlink" href="#fava.api.BeancountReportAPI.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.BeancountReportAPI.watcher">
+<code class="descname">watcher</code><a class="headerlink" href="#fava.api.BeancountReportAPI.watcher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="fava.api.FavaFileNotFoundException">
+<em class="property">exception </em><code class="descclassname">fava.api.</code><code class="descname">FavaFileNotFoundException</code><a class="headerlink" href="#fava.api.FavaFileNotFoundException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.budgets">
+<span id="fava-api-budgets"></span><h3>fava.api.budgets<a class="headerlink" href="#module-fava.api.budgets" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="fava.api.budgets.Budget">
+<em class="property">class </em><code class="descclassname">fava.api.budgets.</code><code class="descname">Budget</code><span class="sig-paren">(</span><em>account</em>, <em>date_start</em>, <em>period</em>, <em>number</em>, <em>currency</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.Budget" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="fava.api.budgets.Budget.__getnewargs__">
+<code class="descname">__getnewargs__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.Budget.__getnewargs__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self as a plain tuple.  Used by copy and pickle.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="fava.api.budgets.Budget.__new__">
+<em class="property">static </em><code class="descname">__new__</code><span class="sig-paren">(</span><em>_cls</em>, <em>account</em>, <em>date_start</em>, <em>period</em>, <em>number</em>, <em>currency</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.Budget.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance of Budget(account, date_start, period, number, currency)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.budgets.Budget.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.Budget.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a nicely formatted representation string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.Budget.account">
+<code class="descname">account</code><a class="headerlink" href="#fava.api.budgets.Budget.account" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.Budget.currency">
+<code class="descname">currency</code><a class="headerlink" href="#fava.api.budgets.Budget.currency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.Budget.date_start">
+<code class="descname">date_start</code><a class="headerlink" href="#fava.api.budgets.Budget.date_start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.Budget.number">
+<code class="descname">number</code><a class="headerlink" href="#fava.api.budgets.Budget.number" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.Budget.period">
+<code class="descname">period</code><a class="headerlink" href="#fava.api.budgets.Budget.period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.budgets.BudgetError">
+<em class="property">class </em><code class="descclassname">fava.api.budgets.</code><code class="descname">BudgetError</code><span class="sig-paren">(</span><em>source</em>, <em>message</em>, <em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.BudgetError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="fava.api.budgets.BudgetError.__getnewargs__">
+<code class="descname">__getnewargs__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.BudgetError.__getnewargs__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self as a plain tuple.  Used by copy and pickle.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="fava.api.budgets.BudgetError.__new__">
+<em class="property">static </em><code class="descname">__new__</code><span class="sig-paren">(</span><em>_cls</em>, <em>source</em>, <em>message</em>, <em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.BudgetError.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance of BudgetError(source, message, entry)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.budgets.BudgetError.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.BudgetError.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a nicely formatted representation string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.BudgetError.entry">
+<code class="descname">entry</code><a class="headerlink" href="#fava.api.budgets.BudgetError.entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.BudgetError.message">
+<code class="descname">message</code><a class="headerlink" href="#fava.api.budgets.BudgetError.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.budgets.BudgetError.source">
+<code class="descname">source</code><a class="headerlink" href="#fava.api.budgets.BudgetError.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.budgets.calculate_budget">
+<code class="descclassname">fava.api.budgets.</code><code class="descname">calculate_budget</code><span class="sig-paren">(</span><em>budgets</em>, <em>account_name</em>, <em>date_from</em>, <em>date_to</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.calculate_budget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a dictionary (currency =&gt; number) with the budget for the
+specified account and period (excluding date_to).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.budgets.parse_budgets">
+<code class="descclassname">fava.api.budgets.</code><code class="descname">parse_budgets</code><span class="sig-paren">(</span><em>custom_entries</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.budgets.parse_budgets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads budget directives from custom entries.</p>
+<p>Example for a budget directive:</p>
+<p>2015-04-09 custom &#8220;budget&#8221; Expenses:Books &#8220;monthly&#8221;  20.00 EUR</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.charts">
+<span id="fava-api-charts"></span><h3>fava.api.charts<a class="headerlink" href="#module-fava.api.charts" title="Permalink to this headline">¶</a></h3>
+<p>Provide data suitable for Fava&#8217;s charts.</p>
+<dl class="class">
+<dt id="fava.api.charts.BeanJSONEncoder">
+<em class="property">class </em><code class="descclassname">fava.api.charts.</code><code class="descname">BeanJSONEncoder</code><span class="sig-paren">(</span><em>skipkeys=False</em>, <em>ensure_ascii=True</em>, <em>check_circular=True</em>, <em>allow_nan=True</em>, <em>sort_keys=False</em>, <em>indent=None</em>, <em>separators=None</em>, <em>encoding='utf-8'</em>, <em>default=None</em>, <em>use_decimal=True</em>, <em>namedtuple_as_object=True</em>, <em>tuple_as_array=True</em>, <em>bigint_as_string=False</em>, <em>item_sort_key=None</em>, <em>for_json=False</em>, <em>ignore_nan=False</em>, <em>int_as_string_bitcount=None</em>, <em>iterable_as_array=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.BeanJSONEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="fava.api.charts.BeanJSONEncoder.default">
+<code class="descname">default</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.BeanJSONEncoder.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.charts.Charts">
+<em class="property">class </em><code class="descclassname">fava.api.charts.</code><code class="descname">Charts</code><span class="sig-paren">(</span><em>api</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="fava.api.charts.Charts.api">
+<code class="descname">api</code><a class="headerlink" href="#fava.api.charts.Charts.api" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.charts.Charts.events">
+<code class="descname">events</code><span class="sig-paren">(</span><em>event_type</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts.events" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.charts.Charts.hierarchy">
+<code class="descname">hierarchy</code><span class="sig-paren">(</span><em>account_name</em>, <em>begin_date=None</em>, <em>end_date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts.hierarchy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.charts.Charts.interval_totals">
+<code class="descname">interval_totals</code><span class="sig-paren">(</span><em>interval</em>, <em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts.interval_totals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders totals for account (or accounts) in the intervals.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.charts.Charts.linechart">
+<code class="descname">linechart</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts.linechart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.charts.Charts.net_worth_at_dates">
+<code class="descname">net_worth_at_dates</code><span class="sig-paren">(</span><em>interval</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.Charts.net_worth_at_dates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.charts.serialize_inventory">
+<code class="descclassname">fava.api.charts.</code><code class="descname">serialize_inventory</code><span class="sig-paren">(</span><em>inventory</em>, <em>at_cost=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.serialize_inventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders an Inventory to a currency -&gt; amount dict.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.charts.serialize_real_account">
+<code class="descclassname">fava.api.charts.</code><code class="descname">serialize_real_account</code><span class="sig-paren">(</span><em>real_account</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.charts.serialize_real_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.fava_options">
+<span id="fava-api-fava-options"></span><h3>fava.api.fava_options<a class="headerlink" href="#module-fava.api.fava_options" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="fava.api.fava_options.OptionError">
+<em class="property">class </em><code class="descclassname">fava.api.fava_options.</code><code class="descname">OptionError</code><span class="sig-paren">(</span><em>source</em>, <em>message</em>, <em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.fava_options.OptionError" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="fava.api.fava_options.OptionError.__getnewargs__">
+<code class="descname">__getnewargs__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.fava_options.OptionError.__getnewargs__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self as a plain tuple.  Used by copy and pickle.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="fava.api.fava_options.OptionError.__new__">
+<em class="property">static </em><code class="descname">__new__</code><span class="sig-paren">(</span><em>_cls</em>, <em>source</em>, <em>message</em>, <em>entry</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.fava_options.OptionError.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create new instance of OptionError(source, message, entry)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="fava.api.fava_options.OptionError.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.fava_options.OptionError.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a nicely formatted representation string</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.fava_options.OptionError.entry">
+<code class="descname">entry</code><a class="headerlink" href="#fava.api.fava_options.OptionError.entry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.fava_options.OptionError.message">
+<code class="descname">message</code><a class="headerlink" href="#fava.api.fava_options.OptionError.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.fava_options.OptionError.source">
+<code class="descname">source</code><a class="headerlink" href="#fava.api.fava_options.OptionError.source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.fava_options.parse_options">
+<code class="descclassname">fava.api.fava_options.</code><code class="descname">parse_options</code><span class="sig-paren">(</span><em>custom_entries</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.fava_options.parse_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse custom entries for fava options. They have the following format:</p>
+<p>2016-04-01 custom &#8220;fava-option&#8221; &#8220;[setting_name]&#8221; &#8220;[setting_value]&#8221;</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.file">
+<span id="fava-api-file"></span><h3>fava.api.file<a class="headerlink" href="#module-fava.api.file" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fava.api.file.insert_line_in_file">
+<code class="descclassname">fava.api.file.</code><code class="descname">insert_line_in_file</code><span class="sig-paren">(</span><em>filename</em>, <em>lineno</em>, <em>content</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.file.insert_line_in_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts the specified content in the file below lineno, taking into
+account the whitespace in front of the line that lineno.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.file.leading_space">
+<code class="descclassname">fava.api.file.</code><code class="descname">leading_space</code><span class="sig-paren">(</span><em>line_content</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.file.leading_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a string representing the leading whitespace for the specified
+string.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.file.next_key">
+<code class="descclassname">fava.api.file.</code><code class="descname">next_key</code><span class="sig-paren">(</span><em>basekey</em>, <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.file.next_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the next unused key for basekey in the supplied array.</p>
+<p>The first try is <cite>basekey</cite>, followed by <cite>basekey-2</cite>, <cite>basekey-3</cite>, etc
+until a free one is found.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.filters">
+<span id="fava-api-filters"></span><h3>fava.api.filters<a class="headerlink" href="#module-fava.api.filters" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="fava.api.filters.AccountFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">AccountFilter</code><a class="headerlink" href="#fava.api.filters.AccountFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by account.</p>
+<p>The filter string can either a regular expression or a parent account.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.filters.EntryFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">EntryFilter</code><a class="headerlink" href="#fava.api.filters.EntryFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filters a list of entries.</p>
+<dl class="method">
+<dt id="fava.api.filters.EntryFilter.apply">
+<code class="descname">apply</code><span class="sig-paren">(</span><em>entries</em>, <em>options</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.EntryFilter.apply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.filters.EntryFilter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.EntryFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the filter.</p>
+<p>Subclasses should check for validity of the value in this method.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="fava.api.filters.FilterException">
+<em class="property">exception </em><code class="descclassname">fava.api.filters.</code><code class="descname">FilterException</code><span class="sig-paren">(</span><em>filter_type</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.FilterException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="fava.api.filters.FromFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">FromFilter</code><a class="headerlink" href="#fava.api.filters.FromFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by a FROM expression in the Beancount Query Language.</p>
+<dl class="method">
+<dt id="fava.api.filters.FromFilter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.FromFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.filters.PayeeFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">PayeeFilter</code><a class="headerlink" href="#fava.api.filters.PayeeFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by payee.</p>
+<dl class="method">
+<dt id="fava.api.filters.PayeeFilter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.PayeeFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.filters.TagFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">TagFilter</code><a class="headerlink" href="#fava.api.filters.TagFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by tags.</p>
+<p>Only keeps entries that might have tags (transactions only).</p>
+<dl class="method">
+<dt id="fava.api.filters.TagFilter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.TagFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="fava.api.filters.TimeFilter">
+<em class="property">class </em><code class="descclassname">fava.api.filters.</code><code class="descname">TimeFilter</code><a class="headerlink" href="#fava.api.filters.TimeFilter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter by dates.</p>
+<dl class="method">
+<dt id="fava.api.filters.TimeFilter.set">
+<code class="descname">set</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.filters.TimeFilter.set" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.helpers">
+<span id="fava-api-helpers"></span><h3>fava.api.helpers<a class="headerlink" href="#module-fava.api.helpers" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="fava.api.helpers.FavaAPIException">
+<em class="property">exception </em><code class="descclassname">fava.api.helpers.</code><code class="descname">FavaAPIException</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.FavaAPIException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.aggregate_holdings_by">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">aggregate_holdings_by</code><span class="sig-paren">(</span><em>holdings</em>, <em>aggregation_key</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.aggregate_holdings_by" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aggregate holdings by the given key.</p>
+<p>They are always grouped by cost currency.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.aggregate_holdings_list">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">aggregate_holdings_list</code><span class="sig-paren">(</span><em>holdings</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.aggregate_holdings_list" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.convert_inventory">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">convert_inventory</code><span class="sig-paren">(</span><em>price_map</em>, <em>target_currency</em>, <em>inventory</em>, <em>date</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.convert_inventory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert and sum an inventory to a common currency.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A Decimal, the sum of all positions that could be converted.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.entry_at_lineno">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">entry_at_lineno</code><span class="sig-paren">(</span><em>entries</em>, <em>filename</em>, <em>lineno</em>, <em>type=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.entry_at_lineno" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the entry in filename at lineno.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.get_final_holdings">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">get_final_holdings</code><span class="sig-paren">(</span><em>entries</em>, <em>included_account_types=None</em>, <em>price_map=None</em>, <em>date=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.get_final_holdings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of holdings by account (as Postings).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.inventory_at_dates">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">inventory_at_dates</code><span class="sig-paren">(</span><em>transactions</em>, <em>dates</em>, <em>posting_predicate</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.inventory_at_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator that yields the aggregate inventory at the specified dates.</p>
+<p>The inventory for a date includes all matching postings PRIOR to it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>transactions</strong> &#8211; list of transactions, sorted by date.</li>
+<li><strong>dates</strong> &#8211; iterator of dates</li>
+<li><strong>posting_predicate</strong> &#8211; predicate with the Transaction and Posting to
+decide whether to include the posting in the inventory.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.api.helpers.net_worth_at_dates">
+<code class="descclassname">fava.api.helpers.</code><code class="descname">net_worth_at_dates</code><span class="sig-paren">(</span><em>entries</em>, <em>dates</em>, <em>price_map</em>, <em>options_map</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.helpers.net_worth_at_dates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fava.api.watcher">
+<span id="fava-api-watcher"></span><h3>fava.api.watcher<a class="headerlink" href="#module-fava.api.watcher" title="Permalink to this headline">¶</a></h3>
+<p>A simple file and folder watcher.</p>
+<dl class="class">
+<dt id="fava.api.watcher.Watcher">
+<em class="property">class </em><code class="descclassname">fava.api.watcher.</code><code class="descname">Watcher</code><a class="headerlink" href="#fava.api.watcher.Watcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple file and folder watcher.</p>
+<p>For folders, only checks mtime of the folder and all subdirectories.
+So a file change won&#8217;t be noticed, but only new/deleted files.</p>
+<dl class="method">
+<dt id="fava.api.watcher.Watcher.check">
+<code class="descname">check</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.watcher.Watcher.check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for changes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.watcher.Watcher.files">
+<code class="descname">files</code><a class="headerlink" href="#fava.api.watcher.Watcher.files" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.watcher.Watcher.folders">
+<code class="descname">folders</code><a class="headerlink" href="#fava.api.watcher.Watcher.folders" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="fava.api.watcher.Watcher.last_checked">
+<code class="descname">last_checked</code><a class="headerlink" href="#fava.api.watcher.Watcher.last_checked" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="fava.api.watcher.Watcher.update">
+<code class="descname">update</code><span class="sig-paren">(</span><em>files</em>, <em>folders</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.api.watcher.Watcher.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the folders/files to watch.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.template_filters">
+<span id="fava-template-filters"></span><h3>fava.template_filters<a class="headerlink" href="#module-fava.template_filters" title="Permalink to this headline">¶</a></h3>
+<p>Template filters for Fava.</p>
+<p>All functions in this module will be automatically added as template filters.</p>
+<dl class="function">
+<dt id="fava.template_filters.account_level">
+<code class="descclassname">fava.template_filters.</code><code class="descname">account_level</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.account_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.balance_children">
+<code class="descclassname">fava.template_filters.</code><code class="descname">balance_children</code><span class="sig-paren">(</span><em>account</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.balance_children" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.basename">
+<code class="descclassname">fava.template_filters.</code><code class="descname">basename</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.basename" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.format_amount">
+<code class="descclassname">fava.template_filters.</code><code class="descname">format_amount</code><span class="sig-paren">(</span><em>amount</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.format_amount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.format_currency">
+<code class="descclassname">fava.template_filters.</code><code class="descname">format_currency</code><span class="sig-paren">(</span><em>value</em>, <em>currency=None</em>, <em>show_if_zero=False</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.format_currency" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.get_or_create">
+<code class="descclassname">fava.template_filters.</code><code class="descname">get_or_create</code><span class="sig-paren">(</span><em>account</em>, <em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.get_or_create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.last_segment">
+<code class="descclassname">fava.template_filters.</code><code class="descname">last_segment</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.last_segment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.remove_keys">
+<code class="descclassname">fava.template_filters.</code><code class="descname">remove_keys</code><span class="sig-paren">(</span><em>_dict</em>, <em>keys</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.remove_keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.should_collapse_account">
+<code class="descclassname">fava.template_filters.</code><code class="descname">should_collapse_account</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.should_collapse_account" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.should_show">
+<code class="descclassname">fava.template_filters.</code><code class="descname">should_show</code><span class="sig-paren">(</span><em>account</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.should_show" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.template_filters.uptodate_eligible">
+<code class="descclassname">fava.template_filters.</code><code class="descname">uptodate_eligible</code><span class="sig-paren">(</span><em>account_name</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.template_filters.uptodate_eligible" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-fava.util">
+<span id="fava-util"></span><h3>fava.util<a class="headerlink" href="#module-fava.util" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fava.util.slugify">
+<code class="descclassname">fava.util.</code><code class="descname">slugify</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.slugify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates an slightly worse ASCII-only slug.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.util.uniquify">
+<code class="descclassname">fava.util.</code><code class="descname">uniquify</code><span class="sig-paren">(</span><em>seq</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.uniquify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes duplicate items from a list whilst preserving order.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.util.date">
+<span id="fava-util-date"></span><h3>fava.util.date<a class="headerlink" href="#module-fava.util.date" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fava.util.date.daterange">
+<code class="descclassname">fava.util.date.</code><code class="descname">daterange</code><span class="sig-paren">(</span><em>year=None</em>, <em>month=None</em>, <em>day=None</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.daterange" title="Permalink to this definition">¶</a></dt>
+<dd><p>A helper function that returns a tuple with the starting and end date for
+the given range of dates. Day or month and day may be omitted to get the
+whole month or whole year respectively.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.util.date.days_in_daterange">
+<code class="descclassname">fava.util.date.</code><code class="descname">days_in_daterange</code><span class="sig-paren">(</span><em>start_date</em>, <em>end_date</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.days_in_daterange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Yields a datetime for every day in the specified interval, excluding
+end_date.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.util.date.get_next_interval">
+<code class="descclassname">fava.util.date.</code><code class="descname">get_next_interval</code><span class="sig-paren">(</span><em>date</em>, <em>interval</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.get_next_interval" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.util.date.interval_tuples">
+<code class="descclassname">fava.util.date.</code><code class="descname">interval_tuples</code><span class="sig-paren">(</span><em>first</em>, <em>last</em>, <em>interval</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.interval_tuples" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.util.date.number_of_days_in_period">
+<code class="descclassname">fava.util.date.</code><code class="descname">number_of_days_in_period</code><span class="sig-paren">(</span><em>period</em>, <em>date_</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.number_of_days_in_period" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the days in the specified period and <a href="#id1"><span class="problematic" id="id2">date_</span></a>.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="fava.util.date.parse_date">
+<code class="descclassname">fava.util.date.</code><code class="descname">parse_date</code><span class="sig-paren">(</span><em>string</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.date.parse_date" title="Permalink to this definition">¶</a></dt>
+<dd><p>&#8220;Tries to parse the given string into two date objects marking the
+beginning and the end of the given period, where the end day is exclusive,
+i.e. one day after the end of the period.</p>
+<dl class="docutils">
+<dt>Example of supported formats:</dt>
+<dd><ul class="first last simple">
+<li>today, tomorrow, yesterday</li>
+<li>2010-03-15, 2010-03, 2010</li>
+<li>march 2010, mar 2010</li>
+<li>this month, last year, next year</li>
+<li>october this year, aug last year</li>
+<li>year to date, ytd</li>
+</ul>
+</dd>
+<dt>Ranges of dates can be expressed in the following forms:</dt>
+<dd><ul class="first last simple">
+<li>start - end</li>
+<li>start to end</li>
+</ul>
+</dd>
+</dl>
+<p>where start and end look like one of the above examples</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-fava.util.excel">
+<span id="fava-util-excel"></span><h3>fava.util.excel<a class="headerlink" href="#module-fava.util.excel" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="fava.util.excel.to_csv">
+<code class="descclassname">fava.util.excel.</code><code class="descname">to_csv</code><span class="sig-paren">(</span><em>types</em>, <em>rows</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.excel.to_csv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="fava.util.excel.to_excel">
+<code class="descclassname">fava.util.excel.</code><code class="descname">to_excel</code><span class="sig-paren">(</span><em>types</em>, <em>rows</em>, <em>result_format</em>, <em>query_string</em><span class="sig-paren">)</span><a class="headerlink" href="#fava.util.excel.to_excel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">Fava</h2>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Web interface for <a href="http://furius.ca/beancount/"
+title="Double-entry bookkeeping software Beancount">Beancount</a></p>
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Development</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setting-up-a-development-environment">Setting up a development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#api-documentation">API Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fava-application">fava.application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api">fava.api</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.budgets">fava.api.budgets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.charts">fava.api.charts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.fava_options">fava.api.fava_options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.file">fava.api.file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.filters">fava.api.filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.helpers">fava.api.helpers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.api.watcher">fava.api.watcher</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.template_filters">fava.template_filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.util">fava.util</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.util.date">fava.util.date</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-fava.util.excel">fava.util.excel</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava/issues">Issue Tracker</a></li>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava">fava @ Github</a></li>
+    
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dominik Aumayr.
+      
+      |
+      <a href="_sources/development.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

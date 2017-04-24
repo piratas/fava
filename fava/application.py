@@ -32,6 +32,7 @@ from fava.core.charts import FavaJSONEncoder
 from fava.core.helpers import FavaAPIException, FilterException
 from fava.docs import HELP_PAGES
 from fava.json_api import json_api
+from fava.git_api import git_api
 from fava.util import slugify, resource_path
 from fava.util.excel import HAVE_EXCEL
 
@@ -39,6 +40,7 @@ app = Flask(__name__,  # pylint: disable=invalid-name
             template_folder=resource_path('templates'),
             static_folder=resource_path('static'))
 app.register_blueprint(json_api, url_prefix='/<bfile>/api')
+app.register_blueprint(git_api, url_prefix='/git')
 
 app.json_encoder = FavaJSONEncoder
 app.jinja_options['extensions'].append('jinja2.ext.do')
